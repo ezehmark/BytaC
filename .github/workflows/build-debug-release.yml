@@ -21,7 +21,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
           cache: 'yarn'  # Use 'npm' if using npm
 
       # Step 3: Install Dependencies
@@ -32,36 +32,47 @@ jobs:
       - name: Install Expo CLI
         run: npm install -g expo-cli
 
-      # Step 5: Debug - List res folder contents
+      # Step 5: Ensure assets directory exists
+      - name: Ensure Assets Directory Exists
+        run: mkdir -p android/app/src/main/assets
+
+      # Step 6: Bundle JavaScript for Production
+      - name: Bundle React Native JavaScript
+        run: |
+          npx react-native bundle --platform android --dev false \
+          --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle \
+          --assets-dest android/app/src/main/res/
+
+      # Step 7: Debug - List res folder contents
       - name: List res folder contents
         run: ls -R android/app/src/main/res
 
-      # Step 6: Remove old build cache
+      # Step 8: Remove old build cache
       - name: Remove old build cache
         run: rm -rf ~/.gradle/caches
 
-      # Step 7: Clean Gradle Build
+      # Step 9: Clean Gradle Build
       - name: Clean Gradle Build
         run: cd android && ./gradlew clean
 
-      # Step 8: Grant Execution Permission to Gradle
+      # Step 10: Grant Execution Permission to Gradle
       - name: Grant Execution Permission to Gradle
         run: chmod +x android/gradlew
 
-      # Step 9: Build Debug APK with Gradle
+      # Step 11: Build Debug APK with Gradle
       - name: Build Debug APK with Gradle
         run: cd android && ./gradlew assembleDebug --no-daemon --stacktrace --info
 
-      # Step 10: Ensure APK Exists
+      # Step 12: Ensure APK Exists
       - name: Ensure APK Exists
         run: |
           echo "Checking if APK exists..."
           ls -lah android/app/build/outputs/apk/debug/
         continue-on-error: true
 
-      # Step 11: Upload APK as Artifact
+      # Step 13: Upload APK as Artifact
       - name: Upload APK as Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: debug-apk
+          name: debug-app
           path: android/app/build/outputs/apk/debug/app-debug.apk
