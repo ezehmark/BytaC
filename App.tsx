@@ -1,16 +1,8 @@
 import MyApp from "./comp1.tsx";
 import { useEffect } from "react";
 import { StatusBar } from "react-native";
-import * as NavigationBar from "expo-navigation-bar";
 
 export default function App() {
-  useEffect(() => {
-    const handleNavigationBar = async () => {
-      await NavigationBar.setBackgroundColorAsync("#2e4a5f"); // Fixed function name
-      await NavigationBar.setButtonStyleAsync("light"); // Use "light" or "dark"
-    };
-    handleNavigationBar();
-  }, []);
 
   return (
     <>

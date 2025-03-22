@@ -204,12 +204,12 @@ const MyApp: React.FC = () => {
   };
 
   useEffect(() => {
-    if (myPeople && myPeople.length > 0 || selected) {
+    if (myPeople && myPeople.length > 0) {
       setTimeout(() => {
        runOnJS(triggerScroll)();
       }, 4000);
     }
-  }, [myPeople,selected]);
+  }, [myPeople]);
 
   const handlePost = async () => {
     setLoading(true);
