@@ -36,20 +36,22 @@ jobs:
       - name: Ensure Assets Directory Exists
         run: mkdir -p android/app/src/main/assets
 
-      # Step 6: Bundle JavaScript for Production
+      # Step 6: Clear Metro and Gradle Cache
+      - name: Clear Metro and Gradle Cache
+        run: |
+          rm -rf ~/.metro-cache
+          rm -rf ~/.gradle/caches
+
+      # Step 7: Bundle JavaScript for Production
       - name: Bundle React Native JavaScript
         run: |
           npx react-native bundle --platform android --dev false \
           --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle \
           --assets-dest android/app/src/main/res/
 
-      # Step 7: Debug - List res folder contents
+      # Step 8: Debug - List res folder contents
       - name: List res folder contents
         run: ls -R android/app/src/main/res
-
-      # Step 8: Remove old build cache
-      - name: Remove old build cache
-        run: rm -rf ~/.gradle/caches
 
       # Step 9: Clean Gradle Build
       - name: Clean Gradle Build

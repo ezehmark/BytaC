@@ -1,5 +1,10 @@
-module.exports = {
+const { makeMetroConfig } = require('@react-native/metro-config');
+
+module.exports = makeMetroConfig({
   transformer: {
-    assetPlugins: ['expo-asset/tools/hashAssetFiles'],
+    babelTransformerPath: require.resolve('metro-react-native-babel-transformer'),
   },
-};
+  resolver: {
+    assetExts: ['db', 'mp3', 'ttf', 'png', 'jpg', 'jpeg'],
+  },
+});
