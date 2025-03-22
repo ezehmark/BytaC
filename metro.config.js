@@ -1,11 +1,10 @@
-const { makeMetroConfig } = require('@react-native/metro-config');
+const { getDefaultConfig } = require('expo/metro-config');
 
-module.exports = makeMetroConfig({
-  transformer: {
-    babelTransformerPath: require.resolve('metro-react-native-babel-transformer'),
-  },
-  resolver: {
-    assetExts: ['db', 'mp3', 'ttf', 'png', 'jpg', 'jpeg'], // Add any other asset extensions you need
-    sourceExts: ['js', 'jsx', 'ts', 'tsx', 'json'], // Ensure source extensions are included
-  },
-});
+const config = getDefaultConfig(__dirname);
+
+config.transformer.babelTransformerPath = require.resolve('metro-react-native-babel-transformer');
+
+config.resolver.assetExts = ['db', 'mp3', 'ttf', 'png', 'jpg', 'jpeg'];
+config.resolver.sourceExts = ['js', 'jsx', 'ts', 'tsx', 'json'];
+
+module.exports = config;
