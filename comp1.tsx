@@ -204,7 +204,7 @@ const MyApp: React.FC = () => {
   };
 
   useEffect(() => {
-    if (myPeople.length > 0 || selected) {
+    if (myPeople && myPeople.length > 0 || selected) {
       setTimeout(() => {
        runOnJS(triggerScroll)();
       }, 4000);
