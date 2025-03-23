@@ -1,4 +1,4 @@
-import MyApp from "./comp.tsx";
+import MyApp from "./userDetails.tsx";
 import { useEffect } from "react";
 import { StatusBar } from "react-native";                       import { SafeAreaView } from "react-native-safe-area-context";
 import * as NavigationBar from "expo-navigation-bar";           export default function App() {

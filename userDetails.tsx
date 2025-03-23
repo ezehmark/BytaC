@@ -17,8 +17,10 @@ import axios from "axios";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
+  useAnimatedGestureHandler,
   withTiming,
   withSequence,
+  useAnimatedProps,
   withRepeat,
   Easing,
   runOnJS,
@@ -187,6 +189,9 @@ const MyApp: React.FC = () => {
       });
   };
 
+  const searchClick=()=>{
+  handleFetch()}
+
   const [selected, setSelected] = useState<string[]>([]);
   const isDragging = useSharedValue(false);
 
@@ -196,19 +201,16 @@ const MyApp: React.FC = () => {
   });
   const triggerScroll = () => {
     scrollDistance.value = withRepeat(
-      withTiming(-2500, { duration: 15000, easing: Easing.linear }),
-      -1,
-      false,
-    );
+      withTiming(-2500, { duration: 15000, easing: Easing.linear }),-1,false)
   };
 
   useEffect(() => {
     if (myPeople.length > 0 || selected) {
       setTimeout(() => {
-        runOnJS(triggerScroll)();
+       runOnJS(triggerScroll)();
       }, 4000);
     }
-  }, [myPeople, selected]);
+  }, [myPeople,selected]);
 
   const handlePost = async () => {
     setLoading(true);
@@ -277,16 +279,10 @@ const MyApp: React.FC = () => {
                 : `Dear ${user.split("@")[0]},\nThe best tech hub is here! At BytanceTech, you get your web/app development done by experienced and professional developers. Reach out to us today for projects like static and dynamic websites, apps and web apps, Search Engine Optimizations(SEO), cybersecurity, productive and uptime robots to fast-track social media engagements, and many more in-demand services\nYou have this rare privilege to discuss with the team-lead:\nMessage Engnr. Mark Ezeh on WhatsApp⤵️\n		 https://wa.me/2349036202766`,
             })
 
-            .then((response) => {
-              setUserDetails(response.data.message);
-              if (response.status === 200) {
-                setNotifyMsg(response.data.msg);
-                dropDownChanger();
-              } else {
-                setNotifyMsg("Email failed to send");
-                dropDownChanger();
-              }
-            })
+            .then((response) => {setUserDetails(response.data.message);if(response.status === 200){
+		    setNotifyMsg(response.data.msg);dropDownChanger()}
+		    else{setNotifyMsg("Email failed to send");dropDownChanger()}
+	    })
             .catch((error) => setUserDetails(error.response.data.message))
             .finally(() => {
               setMailing(false);
@@ -304,7 +300,7 @@ const MyApp: React.FC = () => {
   let dotsInterval = useRef(null);
   const typeSetter = () => {
     setBorderCheck(true);
-    let dots = ["User typing.🖊️", "User typing..🖊️", "User typing...🖊️"];
+    let dots = ["User typing.", "User typing..", "User typing..."];
     let index = 0;
     if (typingTime.current) {
       clearTimeout(typingTime.current);
@@ -353,13 +349,7 @@ const MyApp: React.FC = () => {
         ]}
       >
         {" "}
-        <Text
-          style={{
-            color: "#2e4a5f",
-            position: "absolute",
-            fontSize: 12,
-          }}
-        >
+        <Text style={{ color: "#2e4a5f", position: "absolute", fontSize: 12 }}>
           {notifyMsg}
         </Text>{" "}
       </Animated.View>
@@ -580,15 +570,16 @@ const MyApp: React.FC = () => {
                 style={[
                   {
                     bottom: 300,
-                    height: 50,
+		    height:50,
                     borderRadius: 20,
                     zIndex: 100,
                     position: "absolute",
-                    alignSelf: "flex-start",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    alignItems: "center",
+                    alignSelf:"flex-start",
+		    flexDirection:"row",
+		    alignItems:"center",
+		    justifyContent:"center",
+		    alignItems:"center",
+		    
                   },
                   ListAnim,
                 ]}
@@ -597,25 +588,23 @@ const MyApp: React.FC = () => {
                   horizontal={true}
                   showsHorizontalScrollIndicator={true}
                   data={myPeople}
-                  extraData={selected}
+		  extraData={selected}
                   keyExtractor={(item) => item.id}
                   renderItem={({ item }) => {
                     const isSelected = selected.includes(item.id);
-                    const pressSearch = () => {
-                      setName(item.name);
-                      setTimeout(() => {
-                        handleFetch(item.name);
-                      }, 1000);
-                    };
+		    const pressSearch =()=>{
+		    setName(item.name);
+		    setTimeout(()=>{
+		    handleFetch(item.name)},1000)}
 
                     return (
                       <View
                         style={{
                           height: 40,
-                          width: 100,
+                          width:100,
                           shadowOffset: { width: 0, height: 2 },
-                          margin: 5,
-                          marginBottom: isSelected ? 5 : 0,
+			  margin:5, 
+                          marginBottom:isSelected? 5:0,
                           shadowColor: "rgba(0,0,0,0.3)",
                           elevation: 4,
                           justifyContent: "center",
@@ -624,7 +613,7 @@ const MyApp: React.FC = () => {
                       >
                         <TouchableOpacity
                           onPress={() => {
-                            pressSearch(item.name);
+			    pressSearch(item.name);
                             setSelected((prev) =>
                               prev.includes(item.id)
                                 ? prev.filter((id) => id !== item.id)
@@ -634,7 +623,7 @@ const MyApp: React.FC = () => {
                           style={{
                             height: 40,
                             width: 100,
-                            borderRadius: isSelected ? 10 : 15,
+                            borderRadius: isSelected?10:15,
 
                             justifyContent: "center",
                             backgroundColor: isSelected ? "#feb819" : "#00cdde",
