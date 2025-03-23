@@ -1,13 +1,9 @@
-import MyApp from "./comp1.tsx";
+import MyApp from "./comp.tsx";
 import { useEffect } from "react";
-import { StatusBar } from "react-native";
-
-export default function App() {
-
+import { StatusBar } from "react-native";                       import { SafeAreaView } from "react-native-safe-area-context";
+import * as NavigationBar from "expo-navigation-bar";           export default function App() {
   return (
-    <>
-      <StatusBar barStyle="dark-content" backgroundColor="#2e4a5f" />
-      <MyApp />
+    <>                                                                <MyApp />                                                       <StatusBar barStyle="dark-content" backgroundColor="#00ff00" />
     </>
   );
 }

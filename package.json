@@ -12,7 +12,7 @@
     "@expo/metro-runtime": "^4.0.1",
     "@react-native-community/netinfo": "^11.4.1",
     "axios": "^1.8.4",
-    "expo": "~52.0.40",
+    "expo": "^52.0.40",
     "expo-blur": "^14.0.3",
     "expo-linear-gradient": "^14.0.2",
     "expo-navigation-bar": "^4.0.8",
@@ -21,7 +21,7 @@
     "react": "18.3.1",
     "react-dom": "18",
     "react-native": "0.76.7",
-    "react-native-reanimated": "^3.17.1",
+    "react-native-reanimated": "~3.16.1",
     "react-native-web": "^0.19.13"
   },
   "devDependencies": {
@@ -29,9 +29,6 @@
     "@react-native-community/cli": "latest",
     "@react-native/metro-config": "^0.78.1",
     "@types/react": "~18.3.12",
-    "metro-config": "^0.82.0",
-    "metro-react-native-babel-preset": "^0.77.0",
-    "metro-react-native-babel-transformer": "^0.77.0",
     "typescript": "^5.3.3"
   },
   "private": true

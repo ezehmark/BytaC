@@ -12,6 +12,7 @@ import {
   Platform,
   StyleSheet,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import axios from "axios";
 import Animated, {
   useSharedValue,
@@ -188,8 +189,6 @@ const MyApp: React.FC = () => {
       });
   };
 
-  const searchClick=()=>{
-  handleFetch()}
 
   const [selected, setSelected] = useState<string[]>([]);
   const isDragging = useSharedValue(false);
@@ -204,12 +203,12 @@ const MyApp: React.FC = () => {
   };
 
   useEffect(() => {
-    if (myPeople && myPeople.length > 0) {
+    if (myPeople.length > 0 || selected) {
       setTimeout(() => {
        runOnJS(triggerScroll)();
       }, 4000);
     }
-  }, [myPeople]);
+  }, [myPeople,selected]);
 
   const handlePost = async () => {
     setLoading(true);
