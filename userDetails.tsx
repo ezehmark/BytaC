@@ -137,13 +137,13 @@ const MyApp: React.FC = () => {
   useEffect(() => {
     setTimeout(() => {
       myLeft.value = withSequence(
-        withTiming(26, { duration: 1200, easing: Easing.inOut(Easing.ease) }),
+        withTiming(26, { duration: 1150, easing: Easing.inOut(Easing.ease) }),
         withTiming(0, { duration: 400, easing: Easing.inOut(Easing.ease) }),
         withTiming(10, { duration: 800, easing: Easing.in(Easing.ease) }),
       );
 
       myRight.value = withSequence(
-        withTiming(26, { duration: 1200, easing: Easing.inOut(Easing.ease) }),
+        withTiming(26, { duration: 1150, easing: Easing.inOut(Easing.ease) }),
         withTiming(0, { duration: 400, easing: Easing.inOut(Easing.ease) }),
         withTiming(10, { duration: 800, easing: Easing.in(Easing.ease) }),
       );
@@ -193,7 +193,6 @@ const MyApp: React.FC = () => {
   handleFetch()}
 
   const [selected, setSelected] = useState<string[]>([]);
-  const isDragging = useSharedValue(false);
 
   const scrollDistance = useSharedValue(0);
   const ListAnim = useAnimatedStyle(() => {
@@ -684,7 +683,7 @@ const MyApp: React.FC = () => {
               borderWidth: 0,
               borderColor: "#ecc37e",
               textAlign: "center",
-              color: "#ecc37e",
+              color: "#feb819",
             }}
           >
             Clicking the button "Send Mail" will send email message to specific
@@ -697,7 +696,7 @@ const MyApp: React.FC = () => {
             style={[
               styles.input,
               {
-                borderColor: focused ? "#00ff00" : "#ecc37e",
+                borderColor: focused ? "#00ff00" : "#feb819",
                 backgroundColor: focused ? "rgba(215,230,249,0)" : "#2e4a5f",
                 borderWidth: focused ? 1.5 : 1,
                 color: focused ? "#feb819" : "#ecc37e",
