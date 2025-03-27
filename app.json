@@ -4,11 +4,11 @@
     "slug": "BytaC",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/iconNew.png",
+    "icon": "./assets/myIcon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splashNew.png",
+      "image": "./assets/mySplash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
