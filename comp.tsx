@@ -288,8 +288,8 @@ const MyApp: React.FC = () => {
             .catch((error) => setUserDetails(error.response.data.message))
             .finally(() => {
               setMailing(false);
-            }),
-      ),
+            })
+      )
     );
   };
   const [focused2, setFocused2] = useState(false);
