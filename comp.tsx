@@ -1,3 +1,13 @@
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withSequence,
+  withRepeat,
+  Easing,
+  runOnJS,
+  cancelAnimation,
+} from "react-native-reanimated";
 import React, { useState, useRef, useEffect } from "react";
 import {
   View,
@@ -14,16 +24,6 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import axios from "axios";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  withSequence,
-  withRepeat,
-  Easing,
-  runOnJS,
-  cancelAnimation,
-} from "react-native-reanimated";
 import {
   PanGestureHandler,
   GestureHandlerRootView,
@@ -58,14 +58,14 @@ const MyApp: React.FC = () => {
   const dropDownChanger = () => {
     setBackendActive(true);
     notifyBoxTop.value = withSequence(
-      withTiming(40, { duration: 500 }),
-      withTiming(40, { duration: 1200 }),
+      withTiming(50, { duration: 500 }),
+      withTiming(50, { duration: 1500 }),
       withTiming(-40, { duration: 700 }),
     );
     notifyBoxOpacity.value = withSequence(
       withTiming(1, { duration: 500 }),
-      withTiming(1, { duration: 1000 }),
-      withTiming(0, { duration: 800 }),
+      withTiming(1, { duration: 1500 }),
+      withTiming(0, { duration: 600 }),
     );
   };
 
@@ -194,14 +194,14 @@ const MyApp: React.FC = () => {
   const ListAnim = useAnimatedStyle(() => {
     return { transform: [{ translateX: scrollDistance.value }] };
   });
+
   const triggerScroll = () => {
     scrollDistance.value = withRepeat(
       withTiming(-2500, { duration: 15000, easing: Easing.linear }),
-      -1,
+      1,
       false,
     );
   };
-
   useEffect(() => {
     if (myPeople.length > 0 || selected) {
       setTimeout(() => {
@@ -272,8 +272,64 @@ const MyApp: React.FC = () => {
             .post("https://mybackend-oftz.onrender.com/send-mail", {
               recipient: isEmail ? myEmail : user,
               subject: "Web and App Technology Simplified",
-              message:`<div style="position:absolute;paddhing:10px;height:400px;justify-content:center;width:90%;display:flex;transform:translate(-50%,-50%);top:50%;left:50%;border:2px solid #00ff00;border-radius:10px"><br><p style ="color:#00ff00;position:absolute;top:30px;text-wrap:nowrap;margin:15px;left:0px;font-weight:bold">Dear,${isEmail? myEmail.split("@")[0] : user.split("@")[0]}</p><br><br><div style="position:absolute;margin:15px;top:80px;color:#2e4a5f">We are BytanceTech, we are solid in app and web development. We build tech products that thrive on <b>speed, scalability and accessibility.</b> We major in building functioning dynamic websites and/or standalone apps for Android and iOS systems. Cyber security is paramount across all our products. <br><b>Get it done through us!</b></b></div><div style="padding:display:flex;justify-content:center;align-items:center;width:70%;height:20px"><a href="https://wa.me/2349036202766"><div style="color:green;position:absolute;bottom:40px;align-self:center;transform:translate(-50%,-50%);left:50%;width:180px;text-align:center;padding:10px;border-radius:15px;bordyer:1px solid red; background-color:#00ff00;color:white;box-shadow:2px 2px 4px rgba(0,0,0,0.4)">Contact Mark</div></a>                             </div><footer style="position:absolute;font-size:10px;bottom:15px;color:#41756a">This email was sent from a secure backend - built by Mark</footer></div>`
-            })
+	      message:`<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Web and App Technology Simplified</title>
+  </head>
+  <body style="margin: 0; padding: 0; background-color: #f4f4f4;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #f4f4f4; padding: 20px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="350px" cellspacing="0" cellpadding="0" border="0" style="background-color: white; border: 2px solid #222021; border-radius: 20px; padding: 15px; text-align: center;">
+            <!-- Logo -->
+            <tr>
+              <td style="background-color: #222021; color: white; font-size: 20px; padding: 10px; border-radius: 0px 20px 0px 20px;">
+                <b style="color:#f7b21d">Bytance</b><b style="color:#d50204">Tech</b>
+              </td>
+            </tr>
+
+            <!-- Greeting -->
+            <tr>
+              <td style="color:#4fe300; font-size: 25px; padding-top: 10px;">
+                Dear ${isEmail ? myEmail.split("@")[0] : user.split("@")[0]},
+              </td>
+            </tr>
+
+            <!-- Main Message -->
+            <tr>
+              <td style="color:#1e324b; font-size: 16px; padding: 15px; line-height: 1.5; text-align: left;">
+                The time to get it done is here – not just that, but by <b style="color:#00ff00;">professional</b> hands in web and app development. 
+                Our robust team of developers fast-track the build process to deliver apps that are 
+                <b style="color:#00ff00">scalable, performant, and accessible</b> across devices. 
+                All these at affordable prices.<br><br>
+                Click the button below to get it done today!
+              </td>
+            </tr>
+
+            <!-- Button -->
+            <tr>
+              <td align="center" style="padding: 20px 0;">
+                <a href="https://wa.me/2349036202766" style="background-color: #4fe300; color: black; text-decoration: none; font-size: 16px; padding: 10px 20px; border-radius: 20px; display: inline-block;">
+                  Get It Done
+                </a>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="color: gray; font-size: 10px; padding-top: 10px;">
+                This email was sent from <b>BytanceTech</b> &copy;2025
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+`})
 
             .then((response) => {
               setUserDetails(response.data.message);
@@ -288,8 +344,8 @@ const MyApp: React.FC = () => {
             .catch((error) => setUserDetails(error.response.data.message))
             .finally(() => {
               setMailing(false);
-            })
-      )
+            }),
+      ),
     );
   };
   const [focused2, setFocused2] = useState(false);
@@ -318,7 +374,12 @@ const MyApp: React.FC = () => {
       setBorderCheck(false);
     }, 2500);
   };
+  const [clicked,setClicked] = useState(false);
+  const [selectName, setSelectName] = useState("");
 
+  useEffect(()=>{
+	  if (clicked) {                                              setTimeout(() => {                                           setNotifyMsg(`You added ${selectName} for search`);        dropDownChanger();                                       }, 500);                                                 }                                                          else {                                              setNotifyMsg(`You removed ${selectName} from search`);     dropDownChanger();}
+  },[clicked]);
   return (
     <LinearGradient
       colors={[
@@ -339,12 +400,14 @@ const MyApp: React.FC = () => {
             height: 30,
             position: "absolute",
             borderRadius: 10,
-            width: 200,
             top: -40,
             backgroundColor: "#feb819",
             opacity: backendActive ? 1 : 0,
             alignItems: "center",
             zIndex: 160,
+            paddingVertical: 10,
+            paddingHorizontal: 15,
+            alignSelf: "center",
             justifyContent: "center",
           },
           backendActive && notifyBoxAnim,
@@ -354,8 +417,8 @@ const MyApp: React.FC = () => {
         <Text
           style={{
             color: "#2e4a5f",
-            position: "absolute",
-            fontSize: 12,
+            fontSize: 14,
+            whiteSpace: "nowrap",
           }}
         >
           {notifyMsg}
@@ -479,7 +542,7 @@ const MyApp: React.FC = () => {
               }}
             >
               <Text style={{ textWrap: "nowrap", color: "black" }}>
-                {isfetch ? "Loading..." : "Fetch Now"}
+                {isfetch ? "Fetching..." : "Seach Now"}
               </Text>
             </TouchableOpacity>{" "}
           </Animated.View>
@@ -577,18 +640,14 @@ const MyApp: React.FC = () => {
               <Animated.View
                 style={[
                   {
+                    pointerEvents: "box-none",
                     bottom: 300,
                     height: 50,
+                    width: "100%",
                     borderRadius: 20,
                     zIndex: 100,
                     position: "absolute",
-                    alignSelf: "flex-start",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    alignItems: "center",
                   },
-                  ListAnim,
                 ]}
               >
                 <FlatList
@@ -600,10 +659,11 @@ const MyApp: React.FC = () => {
                   renderItem={({ item }) => {
                     const isSelected = selected.includes(item.id);
                     const pressSearch = () => {
+			    setClicked((prev)=>!prev);
+
+
                       setName(item.name);
-                      setTimeout(() => {
-                        handleFetch(item.name);
-                      }, 1000);
+                      setSelectName(item.name);
                     };
 
                     return (
@@ -628,11 +688,12 @@ const MyApp: React.FC = () => {
                                 ? prev.filter((id) => id !== item.id)
                                 : [...prev, item.id],
                             );
+                            handleNumber();
                           }}
                           style={{
                             height: 40,
                             width: 100,
-                            borderRadius: isSelected ? 10 : 15,
+                            borderRadius: isSelected ? 5 : 15,
 
                             justifyContent: "center",
                             backgroundColor: isSelected ? "#feb819" : "#00cdde",
@@ -646,7 +707,7 @@ const MyApp: React.FC = () => {
                           </Text>
                           <Text
                             style={{
-                              color: isSelected ? "#ccc" : "black",
+                              color: isSelected ? "white" : "black",
                               fontSize: 10,
                             }}
                           >
@@ -706,7 +767,7 @@ const MyApp: React.FC = () => {
             style={[
               styles.input,
               {
-                borderColor: focused ? "#00ff00" : "#ecc37e",
+                borderColor: focused ? "#00ff00" : "#feb819",
                 backgroundColor: focused ? "rgba(215,230,249,0)" : "#2e4a5f",
                 borderWidth: focused ? 1.5 : 1,
                 color: focused ? "#feb819" : "#ecc37e",
