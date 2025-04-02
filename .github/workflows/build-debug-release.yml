@@ -15,7 +15,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Ensures a full clone 
+          fetch-depth: 0  # Ensures a full clone
 
       # Step 2: Set up Node.js
       - name: Set up Node.js
@@ -68,6 +68,7 @@ jobs:
       # Step 9: Bundle React Native JavaScript
       - name: Bundle React Native JavaScript
         run: |
+          npx react-native start --reset-cache & 
           npx react-native bundle --platform android --dev false \
           --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle \
           --assets-dest android/app/src/main/res/
@@ -84,18 +85,27 @@ jobs:
       - name: Grant Execution Permission to Gradle
         run: chmod +x android/gradlew
 
-      # Step 13: Build Debug APK with Gradle
+      # Step 13: Rebuild Gradle Files (Optional)
+      - name: Rebuild Gradle Files
+        run: cd android && ./gradlew cleanBuildCache
+
+      # Step 14: Build Debug APK with Gradle
       - name: Build Debug APK with Gradle
         run: cd android && ./gradlew assembleDebug --no-daemon --stacktrace --info
 
-      # Step 14: Ensure APK Exists
+      # Step 15: Verify Latest Commit Hash
+      - name: Verify Latest Commit Hash
+        run: |
+          echo "Latest commit hash: $(git rev-parse HEAD)"
+
+      # Step 16: Ensure APK Exists
       - name: Ensure APK Exists
         run: |
           echo "Checking if APK exists..."
           ls -lah android/app/build/outputs/apk/debug/
         continue-on-error: true
 
-      # Step 15: Upload APK as Artifact
+      # Step 17: Upload APK as Artifact
       - name: Upload APK as Artifact
         uses: actions/upload-artifact@v4
         with:
