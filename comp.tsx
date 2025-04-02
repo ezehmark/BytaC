@@ -376,10 +376,11 @@ const MyApp: React.FC = () => {
   };
   const [clicked,setClicked] = useState(false);
   const [selectName, setSelectName] = useState("");
+  const [isClicked,setIsClicked] = useState(false);
 
   useEffect(()=>{
-	  if (clicked) {                                              setTimeout(() => {                                           setNotifyMsg(`You added ${selectName} for search`);        dropDownChanger();                                       }, 500);                                                 }                                                          else {                                              setNotifyMsg(`You removed ${selectName} from search`);     dropDownChanger();}
-  },[clicked]);
+	  if (clicked && !isClicked) {                                              setTimeout(() => {                                           setNotifyMsg(`You added ${selectName} for search`);        dropDownChanger();                                       }, 500);                                                 }                                                          if(isClicked) {                                              setNotifyMsg(`You removed ${selectName} from search`);     dropDownChanger();}
+  },[clicked,isClicked]);
   return (
     <LinearGradient
       colors={[
@@ -659,7 +660,10 @@ const MyApp: React.FC = () => {
                   renderItem={({ item }) => {
                     const isSelected = selected.includes(item.id);
                     const pressSearch = () => {
+			    setIsClicked(isSelected);
 			    setClicked((prev)=>!prev);
+			    setTimeout(()=>{setClicked(false)},500)
+			    ;
 
 
                       setName(item.name);
@@ -688,7 +692,6 @@ const MyApp: React.FC = () => {
                                 ? prev.filter((id) => id !== item.id)
                                 : [...prev, item.id],
                             );
-                            handleNumber();
                           }}
                           style={{
                             height: 40,
