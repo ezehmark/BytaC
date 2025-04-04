@@ -373,7 +373,14 @@ const MyApp: React.FC = ({name,setName,myEmail,isEmail,loading,setNav,navigation
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={styles.outer}>
-      <Image source={{uri:"https://i.postimg.cc/JnmDLCRg/Picsart-25-04-03-18-19-38-027.png"}}                                                     style={{                                                          height: 40,                                                     width: 100,                                                     position:"absolute",                                            top:8,                                                          left:20,                                                      }}/>
+      <Image source={{uri:"https://i.postimg.cc/JnmDLCRg/Picsart-25-04-03-18-19-38-027.png"}}                                                    
+      style={{                                                         
+	      height: 30,                                                    
+	      width: 100,                                                     
+	      position:"absolute",                                            
+	      top:5,                                                         
+	      left:20,                                                     
+      }}/>
 
 
 
@@ -395,10 +402,10 @@ const MyApp: React.FC = ({name,setName,myEmail,isEmail,loading,setNav,navigation
             gap: 4,
           }}
         >
-          {" "}
+          
           <Text style={{ fontSize: 10, color: connected ? "#00ff00" : "#ccc" }}>
             {connected ? "Active Data" : "Offline"}
-          </Text>{" "}
+          </Text>
 	  <View
             style={{
               height: 15,
@@ -458,7 +465,7 @@ const MyApp: React.FC = ({name,setName,myEmail,isEmail,loading,setNav,navigation
               justifyContent: "center",
             }}
           >
-            {" "}
+
             <Text style={{ fontSize: 14, color: "red" }}>
               {mailing ? "Sending..." : "Send Mail"}
             </Text>
@@ -483,7 +490,7 @@ const MyApp: React.FC = ({name,setName,myEmail,isEmail,loading,setNav,navigation
               appearAnim1,
             ]}
           >
-            {" "}
+            
             <TouchableOpacity
               onPress={handleFetch}
               disabled={loading}
@@ -497,7 +504,7 @@ const MyApp: React.FC = ({name,setName,myEmail,isEmail,loading,setNav,navigation
               <Text style={{ textWrap: "nowrap", color: "black" }}>
                 {isfetch ? "Fetching..." : "Seach Now"}
               </Text>
-            </TouchableOpacity>{" "}
+            </TouchableOpacity>
           </Animated.View>
 
           {loading ? (
@@ -537,7 +544,7 @@ const MyApp: React.FC = ({name,setName,myEmail,isEmail,loading,setNav,navigation
                   opacity: 1,
                 }}
               >
-                {" "}
+                
                 {userDetails}
               </Text>
             </View>
