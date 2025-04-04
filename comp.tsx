@@ -20,6 +20,7 @@ import {
   ScrollView,
   Alert,
   Platform,
+  Image,
   StyleSheet,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -32,9 +33,8 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { BlurView } from "expo-blur";
 import NetInfo from "@react-native-community/netinfo";
-const MyApp: React.FC = () => {
+const MyApp: React.FC = ({name,setName,myEmail,isEmail,loading,setNav,navigation,setLoading,dropDownChanger,setNotifyMsg,notifyMsg}) => {
   const [userDetails, setUserDetails] = useState("");
-  const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [feedback, setFeedback] = useState(null);
 
@@ -45,29 +45,7 @@ const MyApp: React.FC = () => {
     }
   };
 
-  const [backendActive, setBackendActive] = useState(true);
-
-  const notifyBoxTop = useSharedValue(-40);
-  const notifyBoxOpacity = useSharedValue(1);
-  const notifyBoxAnim = useAnimatedStyle(() => {
-    return { top: notifyBoxTop.value, opacity: notifyBoxOpacity.value };
-  });
-
-  const [notifyMsg, setNotifyMsg] = useState("");
-
-  const dropDownChanger = () => {
-    setBackendActive(true);
-    notifyBoxTop.value = withSequence(
-      withTiming(50, { duration: 500 }),
-      withTiming(50, { duration: 1500 }),
-      withTiming(-40, { duration: 700 }),
-    );
-    notifyBoxOpacity.value = withSequence(
-      withTiming(1, { duration: 500 }),
-      withTiming(1, { duration: 1500 }),
-      withTiming(0, { duration: 600 }),
-    );
-  };
+  useEffect(()=>{if(setNav){setNav(navigation)}},[navigation]);
 
   const checkHealth = async () => {
     try {
@@ -117,7 +95,6 @@ const MyApp: React.FC = () => {
     id: index.toString(),
     ...peopleItem,
   }));
-  const [name, setName] = useState("");
 
   const [focused, setFocused] = useState(false);
 
@@ -132,7 +109,9 @@ const MyApp: React.FC = () => {
     return { left: `${myLeft.value}%`, width: myWidth.value };
   });
 
+  const hasAnimated = useRef(false);
   useEffect(() => {
+	  if(!hasAnimated.current){
     setTimeout(() => {
       myLeft.value = withSequence(
         withTiming(26, { duration: 1200, easing: Easing.inOut(Easing.ease) }),
@@ -151,8 +130,10 @@ const MyApp: React.FC = () => {
         withTiming(80, { duration: 200, easing: Easing.inOut(Easing.ease) }),
         withTiming(110, { duration: 1150, easing: Easing.in(Easing.ease) }),
       );
+
+      hasAnimated.current = true;
     }, 1000);
-  }, []);
+	  }}, [hasAnimated]);
 
   useEffect(() => {
     if (userDetails && userDetails.length > 1) {
@@ -252,8 +233,6 @@ const MyApp: React.FC = () => {
 
   const [mailing, setMailing] = useState(false);
 
-  const [myEmail, setMyEmail] = useState("");
-  const [isEmail, setIsEmail] = useState(false);
   const handleIsEmail = (txt) => {
     if (txt.length >= 8 && txt.includes("@gmail.com")) {
       setMyEmail(txt);
@@ -358,7 +337,7 @@ const MyApp: React.FC = () => {
   let dotsInterval = useRef(null);
   const typeSetter = () => {
     setBorderCheck(true);
-    let dots = ["User typing.🖊️", "User typing..🖊️", "User typing...🖊️"];
+    let dots = ["User typing.", "User typing..", "User typing..."];
     let index = 0;
     if (typingTime.current) {
       clearTimeout(typingTime.current);
@@ -393,44 +372,18 @@ const MyApp: React.FC = () => {
       ]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
-      style={styles.outer}
-    >
-      <Animated.View
-        style={[
-          {
-            height: 30,
-            position: "absolute",
-            borderRadius: 10,
-            top: -40,
-            backgroundColor: "#feb819",
-            opacity: backendActive ? 1 : 0,
-            alignItems: "center",
-            zIndex: 160,
-            paddingVertical: 10,
-            paddingHorizontal: 15,
-            alignSelf: "center",
-            justifyContent: "center",
-          },
-          backendActive && notifyBoxAnim,
-        ]}
-      >
-        {" "}
-        <Text
-          style={{
-            color: "#2e4a5f",
-            fontSize: 14,
-            whiteSpace: "nowrap",
-          }}
-        >
-          {notifyMsg}
-        </Text>{" "}
-      </Animated.View>
-      <ScrollView style={{ height: "100%", width: "100%", paddingBottom: 20 }}>
+      style={styles.outer}>
+      <Image source={{uri:"https://i.postimg.cc/JnmDLCRg/Picsart-25-04-03-18-19-38-027.png"}}                                                     style={{                                                          height: 40,                                                     width: 100,                                                     position:"absolute",                                            top:8,                                                          left:20,                                                      }}/>
+
+
+
+	    <View style={{ height: "100%", width: "100%", paddingBottom: 20 }}>
+
         <View
           style={{
             position: "absolute",
             top: 8,
-            left: 20,
+            right: 20,
             backgroundColor: "#2e4a5f",
             borderRadius: 4,
 
@@ -443,17 +396,15 @@ const MyApp: React.FC = () => {
           }}
         >
           {" "}
-          <View
+          <Text style={{ fontSize: 10, color: connected ? "#00ff00" : "#ccc" }}>
+            {connected ? "Active Data" : "Offline"}
+          </Text>{" "}
+	  <View
             style={{
               height: 15,
               width: 15,
               borderRadius: 7.5,
-              backgroundColor: connected ? "#00ff00" : "#ccc",
-            }}
-          />{" "}
-          <Text style={{ fontSize: 10, color: connected ? "#00ff00" : "#ccc" }}>
-            {connected ? "Active Data" : "Offline"}
-          </Text>{" "}
+              backgroundColor: connected ? "#00ff00" : "#ccc",              }}                                                            />
         </View>
         <Text
           style={{
@@ -476,6 +427,7 @@ const MyApp: React.FC = () => {
           {typing}
         </Text>
 
+	<ScrollView style={{height:"95%",alignSelf:"center",width:"95%",position:"absolute"}}>
         <View
           style={[
             {
@@ -516,7 +468,7 @@ const MyApp: React.FC = () => {
               {
                 backgroundColor: "#00d4d4",
                 left: "10%",
-                top: 346,
+                top: 306,
                 color: "#2e4a5f",
                 display: "flex",
                 alignItems: "center",
@@ -816,7 +768,8 @@ const MyApp: React.FC = () => {
             ref={emailRef}
           />
         </View>
-      </ScrollView>
+	</ScrollView>
+      </View>
     </LinearGradient>
   );
 };
@@ -854,7 +807,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   container: {
-    height: 600,
+    height: 560,
     width: "95%",
     backgroundColor: "#2e4a5f",
     textWrap: "noWrap",
@@ -897,7 +850,7 @@ const styles = StyleSheet.create({
     right: "10%",
     position: "absolute",
     alignSelf: "center",
-    top: 346,
+    top: 306,
     fontWeight: "bold",
     width: 110,
     height: 40,
