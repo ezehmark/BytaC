@@ -4,6 +4,7 @@ import {
   View,
   Text,
   StyleSheet,
+  Alert,
   Image,
   ScrollView,
   TouchableOpacity,
@@ -70,7 +71,7 @@ const SellGiftCards: React.FC = () => {
     const permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permissionResult.granted) {
-      alert("Grant Gallery permissions first");
+      Alert.alert("Grant Gallery permissions first");
       return;
     }
 
@@ -234,14 +235,14 @@ const SellGiftCards: React.FC = () => {
                     onPress={toggleCardList}
                     style={styles.giftCardBox}
                   >
-                    {" "}
+                    
                     <Text style={styles.selectGiftCard}>{giftCardType}</Text>
                     <Image
                       source={{
                         uri: "https://i.postimg.cc/bdcnJBLZ/Picsart-24-11-09-18-11-45-769.png",
                       }}
                       style={styles.dropDownIcon}
-                    />{" "}
+                    />
                   </TouchableOpacity>
 
                   <TextInput
@@ -255,7 +256,7 @@ const SellGiftCards: React.FC = () => {
                   />
 
                   <View style={styles.amountBox}>
-                    {" "}
+                    
                     <Text style={styles.amountText}>₦ 00</Text>
                   </View>
                   <View style={styles.imageBoxCover}>
@@ -270,9 +271,9 @@ const SellGiftCards: React.FC = () => {
                         />
                       ) : (
                         <Text style={styles.uploadText}>
-                          Click to Upload Photo{" "}
+                          Click to Upload Photo
                         </Text>
-                      )}{" "}
+                      )}
                     </TouchableOpacity>
                     {image && (
                       <TouchableOpacity
@@ -285,8 +286,7 @@ const SellGiftCards: React.FC = () => {
                   </View>
 
                   <View style={styles.sellBox}>
-                    {" "}
-                    <Text style={styles.sellText}> Sell Now</Text>{" "}
+                    <Text style={styles.sellText}> Sell Now</Text>
                   </View>
                   <Text style={styles.rate}>Rate:₦0.0</Text>
                 </View>

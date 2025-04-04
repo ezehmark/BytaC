@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";                                                                   
+import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native"; 
 import { createStackNavigator } from "@react-navigation/stack";
-import { StatusBar, StyleSheet, View, TouchableOpacity, Text } from "react-native";                                   
+import { StatusBar, StyleSheet, Dimensions,FlatList, View, TouchableOpacity, Text } from "react-native";                                   
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as NavigationBar from "expo-navigation-bar";                                                                 
 import MyApp from "./comp.tsx";
@@ -15,7 +15,7 @@ export default function App() {
 	const[name,setName]=useState("");
   const [loading, setLoading] = useState(false);
   const notifyBoxTop = useSharedValue(-40);
-  const notifyBoxOpacity = useSharedValue(1);                                                                           
+  const notifyBoxOpacity = useSharedValue(1);
   const notifyBoxAnim = useAnimatedStyle(() => {                                            
     return { top: notifyBoxTop.value, opacity: notifyBoxOpacity.value };                                                                                   
   });                                                                                                                                         
@@ -46,8 +46,13 @@ export default function App() {
     handleNav();                                                                                                                               
   }, []);
 
-  const Stack = createStackNavigator();                                                                                                                                                                                                                                                     
-  const [nav,setNav]=useState(null);                                                                                                                                                                                                                                                       
+  const Stack = createStackNavigator();                                                                                                                                                                                                                                                    const screenWidth = Dimensions.get("window").width; 
+  const [nav,setNav]=useState(null);
+  const[tab,setTab]=useState([]);
+  const tabs = [{id:1,name:"Home",route:"MyApp"},{id:2,name:"Profile",route:"ImgComp"}];
+
+const [clickedTab,setClickedTab] = useState(null);
+
   
   return (                                                                                                                                      
     <View style={{ flex: 1 }}>                                                                                                               
@@ -108,12 +113,19 @@ export default function App() {
       </NavigationContainer>
 
       <BlurView style={styles.tabBar}>
-        <TouchableOpacity onPress={()=>{nav?.navigate("MyApp")}} style={[styles.home,{borderRightWidth:0.5,borderColor:"#ccc"}]}>
-          <Text style={{ fontWeight: "bold",color:"white" }}>Home</Text>
-        </TouchableOpacity>
+<FlatList                                                             data={tabs}                                                           horizontal={true}                                                     keyExtractor={(item,index)=>item.id}
+renderItem={({item})=>{
+	const isTab = clickedTab === item.id;
 
-        <TouchableOpacity  onPress={()=>{nav?.navigate("ImgComp")}}style={[styles.home,{borderLeftWidth:0.5,borderColor:"#ccc"}]}>   <Text style={{ fontWeight: "bold",color:"white"}}>Profile</Text>
-        </TouchableOpacity>
+	      return(
+        <TouchableOpacity  onPress={()=>{setClickedTab(item.id);nav?.navigate(item.route);
+		setTab((prev)=>prev.includes(item.id)?
+			 prev.filter((id)=>id !== item.id):[...prev,item.id])}} 
+		style={[styles.home,{width:screenWidth/2,borderRightWidth:0,borderColor:isTab?"#ccc":"transparent",backgroundColor:isTab? "white":"transparent",borderRadius:15,borderWidth:isTab?0.5:0,borderColor:isTab?"#ccc":"transparent",}]}>
+          <Text style={{ borderRadius:25,color:isTab?"#2e4a5f":"white",fontWeight: "bold"}}>{item.name}</Text>
+        </TouchableOpacity>)}}
+	/>
+
       </BlurView>
     </View>
   );
@@ -123,19 +135,17 @@ const styles = StyleSheet.create({
   tabBar: {
     position: "absolute",
     width: "100%",
-    borderWidth:1,
-    backgroundColor: "rgba(0,0,0,0.5)",
     bottom: 0,
     borderTopLeftRadius:20,
     borderTopRightRadius:20,
     borderColor:"#ccc",
+    overflow:"hidden",
 
     flexDirection: "row",
-    justifyContent: "space-between",
   },
   home: {
     height: 40,                                                                                                                                  
-    width: "50%",                                                                                                                               
+    width: 150,                                                                                                                               
     alignItems: "center",                                                                                                                       
     justifyContent: "center",                                                                                                                  
   },
