@@ -1,4 +1,4 @@
-name: Build Debug APK
+name: Build Debug APK                                                                                                                       
 on:
   push:
     branches:
@@ -26,7 +26,7 @@ jobs:
       - name: Cleanup & Install Dependencies
         run: |
           rm -rf node_modules package-lock.json
-        npm install --lagacy-peer-deps
+          npm install --legacy-peer-deps
 
       # Step 4: Install Expo CLI
       - name: Install Expo CLI
