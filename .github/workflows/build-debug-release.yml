@@ -1,4 +1,5 @@
-name: Build Debug APK                                                                                                                       
+name: Build Debug APK
+
 on:
   push:
     branches:
@@ -8,6 +9,7 @@ jobs:
   build:
     name: Build Debug APK
     runs-on: ubuntu-latest
+
     steps:
       # Step 1: Checkout Repository with full clone
       - name: Checkout Repository
@@ -26,7 +28,7 @@ jobs:
       - name: Cleanup & Install Dependencies
         run: |
           rm -rf node_modules package-lock.json
-          npm install --legacy-peer-deps
+          npm install
 
       # Step 4: Install Expo CLI
       - name: Install Expo CLI
