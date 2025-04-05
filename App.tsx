@@ -121,7 +121,7 @@ renderItem={({item})=>{
         <TouchableOpacity  onPress={()=>{setClickedTab(item.id);nav?.navigate(item.route);
 		setTab((prev)=>prev.includes(item.id)?
 			 prev.filter((id)=>id !== item.id):[...prev,item.id])}} 
-		style={[styles.home,{width:screenWidth/2,borderRightWidth:0,borderColor:isTab?"#ccc":"transparent",backgroundColor:isTab? "white":"transparent",borderRadius:15,borderWidth:isTab?0.5:0,borderColor:isTab?"#ccc":"transparent",}]}>
+		style={[styles.home,{width:screenWidth/2,borderRightWidth:0,borderColor:isTab?"#ccc":"transparent",backgroundColor:isTab? "white":"transparent",borderTopRightRadius:item.id ==1 && 0,borderTopLeftRadius:item.id == 1 && 15,borderWidth:0,borderColor:isTab?"#ccc":"transparent",}]}>
           <Text style={{ borderRadius:25,color:isTab?"#2e4a5f":"white",fontWeight: "bold"}}>{item.name}</Text>
         </TouchableOpacity>)}}
 	/>
