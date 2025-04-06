@@ -33,7 +33,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { BlurView } from "expo-blur";
 import NetInfo from "@react-native-community/netinfo";
-const MyApp: React.FC = ({name,setName,myEmail,isEmail,loading,setNav,navigation,setLoading,dropDownChanger,setNotifyMsg,notifyMsg}) => {
+const MyApp: React.FC = ({name,setName,myEmail,isEmail,loadingTxt,setLoadingTxt,loading,setNav,navigation,setLoading,dropDownChanger,setNotifyMsg,notifyMsg}) => {
   const [userDetails, setUserDetails] = useState("");
   const [visible, setVisible] = useState(false);
   const [feedback, setFeedback] = useState(null);
@@ -66,6 +66,7 @@ const MyApp: React.FC = ({name,setName,myEmail,isEmail,loading,setNav,navigation
     }
   };
   useEffect(() => {
+	  Alert.alert("App produced by Mark");
     checkHealth();
   }, []);
   const [connected, setConnected] = useState(false);
@@ -145,6 +146,7 @@ const MyApp: React.FC = ({name,setName,myEmail,isEmail,loading,setNav,navigation
 
   const handleFetch = async () => {
     setLoading(true);
+    setLoadingTxt("Fetching Info");
     setFetch(true);
 
     await axios
@@ -193,6 +195,7 @@ const MyApp: React.FC = ({name,setName,myEmail,isEmail,loading,setNav,navigation
 
   const handlePost = async () => {
     setLoading(true);
+    setLoadingTxt("Processing...")
     setUpload(true);
 
     await axios
@@ -242,6 +245,8 @@ const MyApp: React.FC = ({name,setName,myEmail,isEmail,loading,setNav,navigation
     }
   };
   const sendMail = async () => {
+	  setLoading(true);
+	  setLoadingTxt("Sending Email");
     setMailing(true);
 
     await Promise.all(
@@ -322,6 +327,7 @@ const MyApp: React.FC = ({name,setName,myEmail,isEmail,loading,setNav,navigation
             })
             .catch((error) => setUserDetails(error.response.data.message))
             .finally(() => {
+		    setLoading(false);
               setMailing(false);
             }),
       ),
@@ -507,33 +513,6 @@ const MyApp: React.FC = ({name,setName,myEmail,isEmail,loading,setNav,navigation
             </TouchableOpacity>
           </Animated.View>
 
-          {loading ? (
-            <View
-              style={{
-                zIndex: 150,
-                height: "1200%",
-                width: "120%",
-                alignItems: "center",
-                backgroundColor: "rgba(46,74,95,0.4)",
-                justifyContent: "center",
-                position: "absolute",
-              }}
-              intensity={5}
-              tint={"dark"}
-            >
-              <ActivityIndicator
-                style={{
-                  padding: 20,
-                  backgroundColor: "black",
-                  borderRadius: 10,
-                  alignSelf: "center",
-                  position: "absolute",
-                }}
-                size={"large"}
-                color={"blue"}
-              />
-            </View>
-          ) : (
             <View
               style={[{ opacity: isUserDetails ? 1 : 0 }, styles.userDetails]}
             >
@@ -548,7 +527,6 @@ const MyApp: React.FC = ({name,setName,myEmail,isEmail,loading,setNav,navigation
                 {userDetails}
               </Text>
             </View>
-          )}
           <Animated.View style={[styles.uploadBtn, appearAnim]}>
             <TouchableOpacity
               onPress={() => {
@@ -723,7 +701,6 @@ const MyApp: React.FC = ({name,setName,myEmail,isEmail,loading,setNav,navigation
             recipients ✔️
           </Text>
 
-          <Text style={styles.feedback}>{feedback}</Text>
 
           <TextInput
             style={[
